@@ -1,0 +1,2 @@
+export const SET_WISH_LIST = 'SET_WISH_LIST';
+export const SET_WISH_LIST_ITEM = 'SET_WISH_LIST_ITEM';
