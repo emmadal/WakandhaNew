@@ -1,0 +1,8 @@
+export const ADD_CART_ITEM = 'ADD_CART_ITEM';
+export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+export const ADD_PRICE = 'ADD_PRICE';
+export const SUBTRACT_PRICE = 'SUBTRACT_PRICE';
+export const INCREASE_QUANTITY = 'ADD_QUANTITY';
+export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
+export const CHANGE_COLOR = 'CHANGE_COLOR';
+export const CHANGE_SIZE = 'CHANGE_SIZE';

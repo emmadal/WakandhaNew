@@ -1,0 +1,9 @@
+export { default as Feed } from './screens/Feed/Feed';
+export { default as DetailPost } from './screens/DetailPost/DetailPost';
+export { default as CreatePost } from './screens/CreatePost/CreatePost';
+export { default as Profile } from './screens/Profile/Profile';
+export { default as DrawerContainer } from './DrawerContainer/DrawerContainer';
+export { default as Header } from './Netflix/Header/index';
+export { default as TabIcon } from './Netflix/TabIcon/index';
+export { default as MainMovie } from './Netflix/MainMovie/index';
+export { default as MoviesList } from './Netflix/MoviesList/index';
