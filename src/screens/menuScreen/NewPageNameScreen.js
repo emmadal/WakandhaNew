@@ -98,7 +98,7 @@ class NewPageName extends Component {
       labelTextStyle: { fontSize: 15 },
       textColor: mainYellowColor,
       baseColor: mainYellowColor,
-      maxLength: 20,
+      maxLength: 50,
     };
 
     return (

@@ -64,10 +64,15 @@ const FeedItem = memo((props) => {
 
   const moreRef = useRef();
 
+  const [authorTitle, setAuthorTitle] = useState("")
+
   useEffect(() => {
     setSelectedIconName(item.myReaction ? item.myReaction : defaultReaction);
     setReactionCount(item.reactionsCount);
     setPreviousReaction(item.myReaction); // this only changes when database reaction changes
+
+    // Post author title (page or author name)
+    setAuthorTitle(item.author.pageName || `${item.author.firstName} ${item.author.lastName}`)
   }, [item]);
 
   const getTintColor = () => {
@@ -283,8 +288,7 @@ const FeedItem = memo((props) => {
         <View style={[styles.titleContainer]}>
           {item.author && (
             <Text style={styles.title}>
-              {item.author.pageName ||
-                `${item.author.firstName} ${item.author.lastName}`}
+              {authorTitle.length <= 20 ? authorTitle : authorTitle.substring(0,20) + "..."}
             </Text>
           )}
 

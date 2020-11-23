@@ -1,1 +1,0 @@
-../../../../../node_modules/react-native-modal-patch/ios/RNTModalHostViewManager.h

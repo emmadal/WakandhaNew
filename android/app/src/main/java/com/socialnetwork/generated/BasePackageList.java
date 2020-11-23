@@ -16,10 +16,10 @@ public class BasePackageList {
         new expo.modules.firebase.core.FirebaseCorePackage(),
         new expo.modules.font.FontLoaderPackage(),
         new expo.modules.imageloader.ImageLoaderPackage(),
-        new expo.modules.permissions.PermissionsPackage(),
         new expo.modules.imagepicker.ImagePickerPackage(),
         new expo.modules.localization.LocalizationPackage(),
-        new expo.modules.location.LocationPackage()
+        new expo.modules.location.LocationPackage(),
+        new expo.modules.permissions.PermissionsPackage()
     );
   }
 }

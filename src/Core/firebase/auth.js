@@ -121,7 +121,7 @@ export const register = (userDetails, appIdentifier) => {
           });
       })
       .catch((error) => {
-        console.log('_error:', error);
+        console.log('_error 2:', error, error.code);
         var errorCode = ErrorCode.serverError;
         if (error.code === 'auth/email-already-in-use') {
           errorCode = ErrorCode.emailInUse;
