@@ -5,21 +5,30 @@ import Geolocation from '@react-native-community/geolocation';
 import * as Facebook from 'expo-facebook';
 import * as Permissions from 'expo-permissions';
 
+import backendApi, { storeToken } from "../../backend"
+
 const defaultProfilePhotoURL =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
 const loginWithEmailAndPassword = (email, password) => {
   return new Promise(function (resolve, _reject) {
-    firebaseAuth.loginWithEmailAndPassword(email, password).then((response) => {
-      if (!response.error) {
-        handleSuccessfulLogin({ ...response.user }, false).then((res) => {
-          // Login successful, push token stored, login credential persisted, so we log the user in.
-          resolve({ user: res.user, stripeCustomer: '' });
-        });
-      } else {
-        resolve({ error: response.error });
-      }
-    });
+    backendApi("post", "/auth/login", {
+      data: {
+        username: email,
+        password: password
+      },
+    }).then(response => {
+      console.log(response)
+      storeToken(response.token)
+      handleSuccessfulLogin({ ...response }, false).then((res) => {
+        // Login successful, push token stored, login credential persisted, so we log the user in.
+        resolve({ user: res.user, stripeCustomer: '' });
+      });
+    })
+      .catch(error => {
+        console.log(error);
+        resolve({ error });
+      });
   });
 };
 
