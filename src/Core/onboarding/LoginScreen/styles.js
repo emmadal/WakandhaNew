@@ -51,11 +51,19 @@ const dynamicStyles = (appStyles, colorScheme) => {
       borderRadius: 5,
       textAlign: I18nManager.isRTL ? 'right' : 'left',
     },
-
     phoneNumberContainer: {
       marginTop: 20,
     },
-    textPhoneNumber: {
+    bottomTextContainer: {
+      marginTop: 50,
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "center"
+    },
+    textBottomLight: {
+      color: "white",
+    },
+    textBottom: {
       color: appStyles.colorSet[colorScheme].mainTextColor,
     },
   });

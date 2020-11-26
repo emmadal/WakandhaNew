@@ -8,7 +8,7 @@ const regexForNames = /^[a-zA-Z]{2,25}$/;
 const regexForPhoneNumber = /\d{9}$/;
 
 const SocialNetworkConfig = {
-  isSMSAuthEnabled: true,
+  isSMSAuthEnabled: true, // todo: remove this useless
   adsConfig: null,
   // adsConfig: {
   //   facebookAdsPlacementID:

@@ -117,7 +117,7 @@ const LoginScreen = (props) => {
         <Text style={styles.title}>{IMLocalized('Se connecter')}</Text>
         <TextInput
           style={styles.InputContainer}
-          placeholder={IMLocalized('E-mail')}
+          placeholder={IMLocalized('E-mail ou Numéro de téléphone')}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -128,7 +128,7 @@ const LoginScreen = (props) => {
           style={styles.InputContainer}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
-          placeholder={IMLocalized('Password')}
+          placeholder={IMLocalized('Mot de passe')}
           onChangeText={(text) => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
@@ -140,22 +140,16 @@ const LoginScreen = (props) => {
           onPress={() => onPressLogin()}>
           {IMLocalized('Se connecter')}
         </Button>
-        <Text style={styles.orTextStyle}> {IMLocalized('OU')}</Text>
 
-        {appConfig.isSMSAuthEnabled && (
-          <Button
+          <TouchableOpacity
             containerStyle={styles.phoneNumberContainer}
-            style={styles.textPhoneNumber}
+            style={styles.bottomTextContainer}
             onPress={() =>
-              props.navigation.navigate('Sms', {
-                isSigningUp: false,
-                appStyles,
-                appConfig,
-              })
+              props.navigation.navigate('Signup', { appStyles, appConfig })
             }>
-            {IMLocalized('Se connecter avec un numéro de téléphone')}
-          </Button>
-        )}
+            <Text style={styles.textBottomLight}>{IMLocalized("Vous n'avez pas de compte?")}{"  "}</Text>
+            <Text style={styles.textBottom}>{IMLocalized("S'inscrire")}</Text>
+          </TouchableOpacity>
 
         {loading && <TNActivityIndicator appStyles={appStyles} />}
       </KeyboardAwareScrollView>

@@ -3,26 +3,25 @@ import auth from '@react-native-firebase/auth';
 import { ErrorCode } from '../onboarding/utils/ErrorCode';
 import { firebase } from './config';
 import { clearLocalStorage } from '../../localStorage';
+import backendApi, { getToken, storeToken } from "../backend"
 const usersRef = firebase.firestore().collection('users');
 
+// todo: move this function to authManager before removing firestore api
 export const retrievePersistedAuthUser = () => {
-  return new Promise((resolve) => {
-    return firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        usersRef
-          .doc(user.uid)
-          .get()
-          .then((document) => {
-            const userData = document.data();
-            resolve({ ...userData, id: user.uid, userID: user.uid });
-          })
-          .catch((error) => {
-            resolve(null);
-          });
-      } else {
-        resolve(null);
-      }
-    });
+  return new Promise(async (resolve) => {
+    const token = await getToken()
+    console.log("check auth user")
+    if(token) {
+      backendApi("get", "/auth/user").then(res => {
+        console.log("auth user", res.user)
+        resolve({ ...res.user, id: res.user._id, userID: res.user._id });
+      }).catch(err=> {
+        console.log(err)
+      resolve(null);
+      })
+    } else {
+      resolve(null);
+    }
   });
 };
 
@@ -121,7 +120,7 @@ export const register = (userDetails, appIdentifier) => {
           });
       })
       .catch((error) => {
-        console.log('_error:', error);
+        console.log('_error 2:', error, error.code);
         var errorCode = ErrorCode.serverError;
         if (error.code === 'auth/email-already-in-use') {
           errorCode = ErrorCode.emailInUse;

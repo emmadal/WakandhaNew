@@ -5,21 +5,30 @@ import Geolocation from '@react-native-community/geolocation';
 import * as Facebook from 'expo-facebook';
 import * as Permissions from 'expo-permissions';
 
+import backendApi, { storeToken } from "../../backend"
+
 const defaultProfilePhotoURL =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
 const loginWithEmailAndPassword = (email, password) => {
   return new Promise(function (resolve, _reject) {
-    firebaseAuth.loginWithEmailAndPassword(email, password).then((response) => {
-      if (!response.error) {
-        handleSuccessfulLogin({ ...response.user }, false).then((res) => {
-          // Login successful, push token stored, login credential persisted, so we log the user in.
-          resolve({ user: res.user, stripeCustomer: '' });
-        });
-      } else {
-        resolve({ error: response.error });
-      }
-    });
+    backendApi("post", "/auth/login", {
+      data: {
+        username: email,
+        password: password
+      },
+    }).then(response => {
+      console.log(response)
+      storeToken(response.user.token)
+      handleSuccessfulLogin({ ...response.user }, false).then((res) => {
+        // Login successful, push token stored, login credential persisted, so we log the user in.
+        resolve({ user: res.user, stripeCustomer: '' });
+      });
+    })
+      .catch(error => {
+        console.log(error);
+        resolve({ error });
+      });
   });
 };
 
@@ -28,73 +37,50 @@ const onVerification = (phone) => {
 };
 
 const createAccountWithEmailAndPassword = (userDetails, appConfig) => {
-  const { photoURI } = userDetails;
-  const accountCreationTask = (userData) => {
     return new Promise((resolve, _reject) => {
-      firebaseAuth
-        .register(userData, appConfig.appIdentifier)
-        .then(async (response) => {
-          if (response.error) {
-            resolve({ error: response.error });
-          } else {
-            // We created the user succesfully, time to upload the profile photo and update the users table with the correct URL
-            let user = response.user;
-            if (photoURI) {
-              firebaseStorage.uploadImage(photoURI).then((response) => {
-                if (response.error) {
-                  // if account gets created, but photo upload fails, we still log the user in
-                  resolve({
-                    nonCriticalError: response.error,
-                    user: {
-                      ...user,
-                      profilePictureURL: defaultProfilePhotoURL,
-                    },
-                  });
-                } else {
-                  firebaseAuth
-                    .updateProfilePhoto(user.id, response.downloadURL)
-                    .then((_result) => {
-                      resolve({
-                        user: {
-                          ...user,
-                          profilePictureURL: response.downloadURL,
-                        },
-                      });
-                    });
-                }
-              });
-            } else {
-              resolve({
-                user: {
-                  ...response.user,
-                  profilePictureURL: defaultProfilePhotoURL,
-                },
-              });
-            }
-          }
-        });
-    });
-  };
+      const {
+        email,
+        firstName,
+        lastName,
+        password,
+        location,
+        signUpLocation,
+      } = userDetails;
 
-  return new Promise(function (resolve, _reject) {
-    const userData = {
-      ...userDetails,
-      profilePictureURL: defaultProfilePhotoURL,
-    };
-    accountCreationTask(userData).then((response) => {
-      if (response.error) {
-        resolve({ error: response.error });
-      } else {
-        // We signed up successfully, so we are logging the user in (as well as updating push token, persisting credential,s etc.)
-        handleSuccessfulLogin(response.user, true).then((response) => {
-          resolve({
-            ...response,
-            stripeCustomer: '',
+      backendApi("post", "/auth/signup", {
+        data: {
+          username: email, // represent email or phone number
+          password,
+          firstName,
+          lastName,
+          location: location || '',
+          signUpLocation: signUpLocation || '',
+          appIdentifier: appConfig.appIdentifier
+        },
+      }).then(response => {
+        backendApi("post", "/auth/login", {
+          data: {
+            username: email,
+            password: password
+          },
+        }).then(response => {
+          console.log(response)
+          storeToken(response.user.token)
+          handleSuccessfulLogin({ ...response.user }, false).then((res) => {
+            // Login successful, push token stored, login credential persisted, so we log the user in.
+            resolve({ user: res.user, stripeCustomer: '' });
           });
+        })
+          .catch(error => {
+            console.log(error);
+            resolve({ error });
+          });
+      })
+        .catch(error => {
+          console.log(error);
+          resolve({ error });
         });
-      }
     });
-  });
 };
 
 const retrievePersistedAuthUser = () => {

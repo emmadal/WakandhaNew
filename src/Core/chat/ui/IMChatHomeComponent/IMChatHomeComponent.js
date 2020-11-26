@@ -16,8 +16,6 @@ import { useColorScheme } from 'react-native-appearance';
 import { IMConversationListView } from '../..';
 import { IMLocalized } from '../../../localization/IMLocalization';
 import AppStyles from '../../../../AppStyles';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { TNEmptyStateView } from '../../../truly-native';
 
 const width = Dimensions.get('window').width;
 
@@ -53,32 +51,29 @@ function IMChatHomeComponent(props) {
   const styles = dynamicStyles(appStyles, colorScheme);
 
   const tabList = [
-    { type: 'icon', title: 'phone' },
-    { type: 'text', title: 'Tchat' },
-    { type: 'text', title: 'Groupes' },
-    { type: 'text', title: 'Pages' },
-    { type: 'text', title: 'Amis' },
+    { title: 'Chat' },
+    { title: 'Groupes' },
     /* { title: 'Appels' }, */
   ];
 
   const [pageIndex, setPageIndex] = useState(0);
-  var swiper = '';
+
   const onTabClicked = (flag) => {
     if (flag === 0) {
-      swiper.scrollTo({ x: 0, y: 0, animated: true });
+      this.swiper.scrollTo({ x: 0, y: 0, animated: true });
     }
     if (flag === 1) {
-      swiper.scrollTo({ x: width, y: 0, animated: true });
+      this.swiper.scrollTo({ x: width, y: 0, animated: true });
     }
     if (flag === 2) {
-      swiper.scrollTo({ x: width * 2, y: 0, animated: true });
+      this.swiper.scrollTo({ x: width * 2, y: 0, animated: true });
     }
 
     setPageIndex(flag);
   };
 
   const ref = (el) => {
-    swiper = el;
+    this.swiper = el;
   };
 
   const handlePageChange = (e) => {
@@ -113,21 +108,7 @@ function IMChatHomeComponent(props) {
                 { width: `${100 / tabList.length}%` },
               ]}
               onPress={() => onTabClicked(index)}>
-              {item.type === 'text' && (
-                <Text style={styles.textTab}>{item.title}</Text>
-              )}
-              {item.type === 'icon' && (
-                <>
-                  {console.log('hello')}
-                  <Icon
-                    name={item.title}
-                    color="#fff"
-                    size={27}
-                    style={styles.textTab}
-                  />
-                </>
-              )}
-
+              <Text style={styles.textTab}>{item.title}</Text>
               <View
                 style={[pageIndex === index && styles.viewUnderlineActive]}
               />
@@ -138,28 +119,13 @@ function IMChatHomeComponent(props) {
 
       <ScrollView
         ref={(snapScroll) => {
-          swiper = snapScroll;
+          this.swiper = snapScroll;
         }}
         horizontal
         pagingEnabled
         onMomentumScrollEnd={handlePageChange}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ width: `${tabList.length * 100}%` }}>
-        <View style={styles.containerItemTab}>
-          <ScrollView style={styles.container}>
-            <View style={styles.chatsChannelContainer}>
-              <View style={styles.emptyViewContainer}>
-                <TNEmptyStateView
-                  emptyStateConfig={{
-                    title: 'Aucun appel ',
-                    description: "L'historique des appels ",
-                  }}
-                  appStyles={appStyles}
-                />
-              </View>
-            </View>
-          </ScrollView>
-        </View>
         <View style={styles.containerItemTab}>
           <ScrollView style={styles.container}>
             <View style={styles.chatsChannelContainer}>
@@ -182,36 +148,6 @@ function IMChatHomeComponent(props) {
                 appStyles={appStyles}
                 emptyStateConfig={emptyStateConfig}
               />
-            </View>
-          </ScrollView>
-        </View>
-        <View style={styles.containerItemTab}>
-          <ScrollView style={styles.container}>
-            <View style={styles.chatsChannelContainer}>
-              <View style={styles.emptyViewContainer}>
-                <TNEmptyStateView
-                  emptyStateConfig={{
-                    title: 'Aucune Page ',
-                  }}
-                  appStyles={appStyles}
-                />
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-        <View style={styles.containerItemTab}>
-          <ScrollView style={styles.container}>
-            <View style={styles.chatsChannelContainer}>
-              <View style={styles.emptyViewContainer}>
-                <TNEmptyStateView
-                  emptyStateConfig={{
-                    title: 'Aucuns Amis',
-                    description:
-                      'Ajouter des contacts pour commencer à leur parler',
-                  }}
-                  appStyles={appStyles}
-                />
-              </View>
             </View>
           </ScrollView>
         </View>

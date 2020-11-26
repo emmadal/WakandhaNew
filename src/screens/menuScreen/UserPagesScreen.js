@@ -166,7 +166,7 @@ class UserPages extends Component {
                       )}
 
                       <View>
-                        <Text style={styles.textSubTitle}>{pageName}</Text>
+                        <Text style={styles.textSubTitle}>{pageName.length <= 20 ? pageName : pageName.substring(0,20) + "..."}</Text>
                         <View style={styles.containerItemRound}>
                           <Text
                             numberOfLines={1}

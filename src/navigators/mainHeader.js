@@ -93,9 +93,9 @@ export default function MainHeader({ navigation, params }) {
             margin: 0,
           }}
           iconSource={AppStyles.iconSet.appIcon}
-          onPress={() => {
-            navigation.navigate('ChatMain');
-          }}
+          onPress={() =>
+          {}
+          }
           appStyles={AppStyles}
         />
       </View>

@@ -17,7 +17,6 @@ import {
 import { setUsers } from '../../Core/onboarding/redux/auth';
 
 import FriendshipTracker from '../../Core/socialgraph/friendships/firebase/tracker';
-import ChatHeader from '../../navigators/chatHeader';
 
 class ChatScreen extends Component {
   static contextType = ReactReduxContext;
@@ -25,7 +24,25 @@ class ChatScreen extends Component {
   static navigationOptions = ({ screenProps, navigation }) => {
     let currentTheme = AppStyles.navThemeConstants[screenProps.theme];
     const { params = {} } = navigation.state;
-    return ChatHeader({ navigation, params });
+    return {
+      headerTitle: (
+        <Image
+          style={{
+            width: responsiveWidth(30),
+            height: 30,
+            alignSelf: 'center',
+          }}
+          source={require('../../../assets/images/app-logo.png')}
+          resizeMode={'contain'}
+        />
+      ),
+      headerStyle: {
+        paddingBottom: 15,
+        backgroundColor: currentTheme.backgroundColor,
+        borderBottomWidth: 0,
+      },
+      headerTintColor: '#DDB937',
+    };
   };
 
   constructor(props) {

@@ -2,5 +2,7 @@
   "name": "SocialNetwork",
   "displayName": "SocialNetwork",
   "facebookDisplayName": "Compatriot",
-  "facebookAppId": "834318260403282"
+  "facebookAppId": "834318260403282",
+  "devBackendUrl": "http://192.168.1.7:3000",
+  "prodBackendUrl": "https://wakandha.herokuapp.com"
 }

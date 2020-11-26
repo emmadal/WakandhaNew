@@ -14,7 +14,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import dynamicStyles from './styles';
 import { useColorScheme } from 'react-native-appearance';
 import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
-import TNProfilePictureSelector from '../../truly-native/TNProfilePictureSelector/TNProfilePictureSelector';
 import { IMLocalized } from '../../localization/IMLocalization';
 import { setUserData } from '../redux/auth';
 import { connect } from 'react-redux';
@@ -110,7 +109,7 @@ const SignupScreen = (props) => {
         />
         <TextInput
           style={styles.InputContainer}
-          placeholder={IMLocalized('Adresse mail')}
+          placeholder={IMLocalized('Adresse mail ou Numéro de téléphone')}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -131,7 +130,7 @@ const SignupScreen = (props) => {
           containerStyle={styles.signupContainer}
           style={styles.signupText}
           onPress={() => onRegister()}>
-          {IMLocalized('Sign Up')}
+          {IMLocalized("S'inscrire")}
         </Button>
       </>
     );
@@ -158,28 +157,19 @@ const SignupScreen = (props) => {
         <Text style={styles.title}>
           {IMLocalized('Créer un nouveau compte')}
         </Text>
-        <TNProfilePictureSelector
-          setProfilePictureURL={setProfilePictureURL}
-          appStyles={appStyles}
-        />
+        
         {renderSignupWithEmail()}
-        {appConfig.isSMSAuthEnabled && (
-          <>
-            <Text style={styles.orTextStyle}>{IMLocalized('OU')}</Text>
-            <Button
-              containerStyle={styles.PhoneNumberContainer}
-              style={styles.textPhoneNumber}
-              onPress={() =>
-                props.navigation.navigate('Sms', {
-                  isSigningUp: true,
-                  appStyles,
-                  appConfig,
-                })
-              }>
-              {IMLocalized("S'inscrire avec un numéro de téléphone")}
-            </Button>
-          </>
-        )}
+
+        <TouchableOpacity
+            containerStyle={styles.phoneNumberContainer}
+            style={styles.bottomTextContainer}
+            onPress={() =>
+              props.navigation.navigate('Login', { appStyles, appConfig })
+            }>
+            <Text style={styles.textBottomLight}>{IMLocalized("Vous avez déjà un compte?")}{"  "}</Text>
+            <Text style={styles.textBottom}>{IMLocalized("Se connecter")}</Text>
+        </TouchableOpacity>
+
         <TermsOfUseView tosLink={appConfig.tosLink} style={styles.tos} />
       </KeyboardAwareScrollView>
       {loading && <TNActivityIndicator appStyles={appStyles} />}

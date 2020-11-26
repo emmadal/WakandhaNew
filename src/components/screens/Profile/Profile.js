@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  Dimensions
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -32,6 +33,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BaseModal } from '../../Modal';
 import Button from 'react-native-button';
+
+// To limit title width, useful for large titles
+const screenWidth = Math.round(Dimensions.get('window').width);
 
 function Profile(props) {
   const [editModal, setEditModal] = useState(false);
@@ -167,7 +171,7 @@ function Profile(props) {
         title: 'Publier',
         icon: post,
         action: () =>
-          navigation.navigate('PageCreatePost', {
+          navigation.navigate('CreatePost', {
             postAsUser: user,
           }),
       },
@@ -241,9 +245,9 @@ function Profile(props) {
                   <Text
                     style={[
                       styles.textTitle,
-                      { marginBottom: 0, marginRight: 10 },
+                      { width: screenWidth - 125, marginBottom: 0, marginRight: 10 },
                     ]}>
-                    {user.pageName}
+                    {user.pageName} {screenWidth}
                   </Text>
                   {user.isVerified && (
                     <Image
@@ -427,7 +431,7 @@ function Profile(props) {
         buttonName: IMLocalized('Commence à publier!'),
         onPress: isPage
           ? () =>
-              navigation.navigate('PageCreatePost', {
+              navigation.navigate('CreatePost', {
                 postAsUser: user,
               })
           : onEmptyStatePress,

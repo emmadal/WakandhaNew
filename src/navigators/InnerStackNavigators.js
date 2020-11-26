@@ -66,6 +66,7 @@ const InnerFeedNavigator = createStackNavigator(
     PaymentScreen: { screen: PaymentScreen },
     PersonalChat: { screen: IMChatScreen },
     ChatMain: { screen: ChatScreen },
+
     CreateGroup: { screen: IMCreateGroupScreen },
   },
   {

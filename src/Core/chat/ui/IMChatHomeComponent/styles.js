@@ -46,7 +46,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       width: '100%',
       flexDirection: 'row',
       justifyContent: 'center',
-      paddingHorizontal: 20,
+      paddingHorizontal: 60,
       borderBottomWidth: 1,
       borderBottomColor: 'rgba(255,255,255,0.1)',
     },

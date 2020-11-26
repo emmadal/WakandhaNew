@@ -1,16 +1,16 @@
 import { createSwitchNavigator } from 'react-navigation';
 import AppStyles from '../AppStyles';
 import { LoadScreen, WalkthroughScreen } from '../Core/onboarding';
+import MainStackNavigator from './MainStackNavigator';
 import LoginStack from './AuthStackNavigator';
 import SocialNetworkConfig from '../SocialNetworkConfig';
-import BottomTabNavigator from './BottomTabNavigator';
 
 export const RootNavigator = createSwitchNavigator(
   {
     LoadScreen: LoadScreen,
     Walkthrough: WalkthroughScreen,
     LoginStack: LoginStack,
-    MainStack: BottomTabNavigator,
+    MainStack: MainStackNavigator,
   },
   {
     initialRouteName: 'LoadScreen',

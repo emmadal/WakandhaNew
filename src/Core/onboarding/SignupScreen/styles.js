@@ -122,7 +122,16 @@ const dynamicStyles = (appStyles, colorScheme) => {
       marginBottom: 10,
       alignSelf: 'center',
     },
-    textPhoneNumber: {
+    bottomTextContainer: {
+      marginTop: 50,
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "center"
+    },
+    textBottomLight: {
+      color: "white",
+    },
+    textBottom: {
       color: appStyles.colorSet[colorScheme].mainTextColor,
     },
     smsText: {
